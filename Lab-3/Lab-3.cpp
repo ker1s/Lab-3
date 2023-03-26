@@ -10,6 +10,8 @@ struct List
 	List* next;
 };
 
+//Обязательое
+
 bool IsEmpty(List* list)
 {
 	return list == nullptr;
@@ -83,8 +85,8 @@ List* Insert(List* insert, int pos,int value)
 	{
 		return AddHead(insert, value);
 	}
-	List* temp = insert;
-	List* newElem = new List;
+	List* temp{ insert };
+	List* newElem{ new List };
 	List* preview{ findPos(temp, pos - 1) };
 	newElem->next = findPos(temp, pos);
 	newElem->data = value;
@@ -107,6 +109,11 @@ List* RemoveTail(List* tail)
 	if (IsEmpty(tail))
 	{
 		return tail;
+	}
+	if (tail->next == nullptr) 
+	{
+		delete tail;
+		return nullptr;
 	}
 	List* removed{ tail };
 	while (removed->next->next!= nullptr)
@@ -179,9 +186,9 @@ List* FindData(List* find, int value)
 }
 List* FindPos(List* find, int pos)
 {
-	if (find == nullptr || pos < 0) // проверяем, что список не пустой и позиция корректна
+	if (find == nullptr || pos < 0) 
 	{
-		return nullptr;
+		return find;
 	}
 	int i{ 0 };
 	List* temp = find;
@@ -206,6 +213,50 @@ int Retrieve(List* find, List* elem)
 		temp = temp->next;
 	}
 	return temp->data;
+}
+
+List* Clone(List* cloned)
+{
+	List* newList{ new List };
+	while (cloned->next != nullptr)
+	{
+		newList = cloned;
+		cloned = cloned->next;
+	}
+	return newList;
+}
+
+//По вариантам
+
+List* Reverse(List* reversOld)
+{
+	if (IsEmpty(reversOld)) // проверка на пустой список
+	{
+		return nullptr;
+	}
+	
+	List* temp{ reversOld };
+	List* reversNew{ nullptr };
+	int size{ 0 };
+	
+	while (temp->next != nullptr)
+	{
+		size++;
+		temp = temp->next;
+	}
+	
+	temp =  reversOld;
+	reversNew = new List{temp->data, nullptr};
+	temp = temp->next;
+	
+	for (int i = size - 1; i >= 0; i--)
+	{
+		List* superTempList{ new List{temp->data, reversNew} };
+		reversNew = superTempList;
+		temp = temp->next;
+	}
+	RemoveAll(reversOld);
+	return reversNew;
 }
 
 int main()
@@ -409,13 +460,27 @@ int main()
 			labList = AddTailRand(labList, quant);
 			cout << endl;
 			OutList(labList);
-			cout << endl;
-			cout << endl;
-			cout << labList;
-			cout << endl;
+			cout << endl << endl;
 			cout << "Искомый элемент по позиции: "; cin >> pos;
 			cout << endl << "Значение указателя с данным индексом: " << FindPos(labList, pos) << endl;
 			cout << endl << "Значение с данным индексом: " << Retrieve(labList, FindPos(labList, pos)) << endl;
+		}
+		break;
+
+		case 11:
+		{
+			List* labList = nullptr;
+			int quant;
+			int pos;
+			cout << "\n\nСколько элементов будет в списке?\n";
+			cin >> quant;
+			cout << endl;
+			labList = AddTailRand(labList, quant);
+			cout << endl;
+			OutList(labList);
+			cout << endl << endl;
+			labList = Reverse(labList);
+			OutList(labList);
 		}
 		break;
 
