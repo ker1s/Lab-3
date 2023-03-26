@@ -79,7 +79,7 @@ List* findPos(List* find, int pos)
 }
 List* Insert(List* insert, int pos,int value)
 {
-	if (insert == nullptr || pos == 1)
+	if (insert == nullptr || pos == 0)
 	{
 		return AddHead(insert, value);
 	}
@@ -119,7 +119,7 @@ List* RemoveTail(List* tail)
 }
 List* Remove(List* any,int pos)
 {
-	if (pos == 1)
+	if (pos == 0)
 	{
 		return RemoveHead(any);
 	}
@@ -179,19 +179,19 @@ List* FindData(List* find, int value)
 }
 List* FindPos(List* find, int pos)
 {
-	if (find == nullptr || pos <= 0) // проверяем, что список не пустой и позиция корректна
+	if (find == nullptr || pos < 0) // проверяем, что список не пустой и позиция корректна
 	{
 		return nullptr;
 	}
-	int i{ 1 };
+	int i{ 0 };
 	List* temp = find;
 	while (temp != nullptr && i <= pos)
 	{
-		i++;
-		if (i == pos+1)
+		if (i == pos)
 		{
-			return temp->next;
+			return temp;
 		}
+		i++;
 		temp = temp->next;
 	}
 	return nullptr;
@@ -201,11 +201,11 @@ int Retrieve(List* find, List* elem)
 {
 
 	List* temp = find;
-	while (temp->next != elem)
+	while (temp != elem)
 	{
 		temp = temp->next;
 	}
-	return temp->next->data;
+	return temp->data;
 }
 
 int main()
@@ -398,7 +398,7 @@ int main()
 		}
 		break;
 
-		case 10: // вывод data по порядковому номеру
+		case 10: // вывод data по указателю
 		{
 			List* labList = nullptr;
 			int quant;
@@ -415,7 +415,7 @@ int main()
 			cout << endl;
 			cout << "Искомый элемент по позиции: "; cin >> pos;
 			cout << endl << "Значение указателя с данным индексом: " << FindPos(labList, pos) << endl;
-			cout << endl << "Значение с данным индексом: " << Retrieve(labList, FindData(labList, pos)) << endl;
+			cout << endl << "Значение с данным индексом: " << Retrieve(labList, FindPos(labList, pos)) << endl;
 		}
 		break;
 
