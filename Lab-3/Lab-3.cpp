@@ -1,6 +1,7 @@
 ﻿#include <iostream>
 #include <iomanip>
 #include <random>
+#include <iterator>
 
 using namespace std;
 
@@ -8,6 +9,13 @@ struct List
 {
 	int data;
 	List* next;
+};
+
+struct List2
+{
+	int data;
+	List2* next;
+	List2* prev
 };
 
 //Обязательое
@@ -259,6 +267,37 @@ List* Reverse(List* reversOld)
 	return reversNew;
 }
 
+List* Curr(List* curr)
+{
+	return curr;
+}
+List* Next(List* next)
+{
+	return next->next;
+}
+List* End(List* end)
+{
+	if (end == nullptr)
+	{
+		return end;
+	}
+	while (end->next != nullptr)
+	{
+		end = end->next;
+	}
+	return end;
+}
+int CurrData(List* curr)
+{
+	return curr->data;
+}
+List2* PrevElement(List2* prev)
+{
+	return prev->prev;
+}
+
+
+
 int main()
 {
 	bool enter(false);
@@ -495,6 +534,3 @@ int main()
 	}
 	return 0;
 }
-
-
-
